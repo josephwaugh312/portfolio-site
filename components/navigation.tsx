@@ -78,7 +78,7 @@ export function Navigation() {
                 strokeLinecap="round"
               />
             </svg>
-            <span>JW</span>
+            <span>&lt;Joseph Waugh /&gt;</span>
           </Link>
 
           {/* Desktop Navigation */}
