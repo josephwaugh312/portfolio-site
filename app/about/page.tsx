@@ -163,7 +163,7 @@ export default function AboutPage() {
               <div className="rounded-lg bg-gradient-to-r from-primary/10 to-blue-600/10 p-8">
                 <h2 className="text-2xl font-semibold mb-8 text-center">Achievements</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                  {achievements.map((achievement, index) => {
+                  {achievements.map((achievement) => {
                     const Icon = achievement.icon
                     return (
                       <div key={`${achievement.label}-${achievement.value}`} className="text-center">
