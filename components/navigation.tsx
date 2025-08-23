@@ -81,8 +81,8 @@ export function Navigation() {
             <span>&lt;Joseph Waugh /&gt;</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8" role="list">
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden md:flex md:items-center md:space-x-8 md:absolute md:left-1/2 md:-translate-x-1/2" role="list">
             {navItems.map((item) => (
               <Link
                 key={item.href}

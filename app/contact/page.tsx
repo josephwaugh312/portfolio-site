@@ -133,7 +133,7 @@ export default function ContactPage() {
             </p>
             <button
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:scale-105 hover:shadow-lg"
-              onClick={() => window.open('https://calendly.com/yourusername', '_blank')}
+              onClick={() => window.open('https://calendly.com/joseph-waugh312', '_blank')}
             >
               Schedule a Meeting
             </button>
