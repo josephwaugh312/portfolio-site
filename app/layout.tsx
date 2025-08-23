@@ -32,22 +32,22 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://portfolio.example.com'),
+  metadataBase: new URL('https://josephwaugh.com'),
   title: {
-    default: 'Portfolio - Full Stack Developer',
-    template: '%s | Portfolio'
+    default: 'Joseph Waugh - Full Stack Developer',
+    template: '%s | Joseph Waugh'
   },
-  description: 'Professional portfolio showcasing web development projects and skills. Specializing in React, Next.js, TypeScript, and modern web technologies.',
-  keywords: ['portfolio', 'web developer', 'full stack', 'react', 'nextjs', 'typescript', 'javascript', 'frontend', 'backend'],
-  authors: [{ name: 'Your Name', url: 'https://portfolio.example.com' }],
-  creator: 'Your Name',
+  description: 'Full-stack developer specializing in React, Next.js, TypeScript, and Node.js. Building modern web applications with clean code and intuitive user experiences.',
+  keywords: ['Joseph Waugh', 'portfolio', 'web developer', 'full stack', 'react', 'nextjs', 'typescript', 'javascript', 'frontend', 'backend'],
+  authors: [{ name: 'Joseph Waugh', url: 'https://josephwaugh.com' }],
+  creator: 'Joseph Waugh',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://portfolio.example.com',
-    title: 'Portfolio - Full Stack Developer',
-    description: 'Professional portfolio showcasing web development projects and skills',
-    siteName: 'Developer Portfolio',
+    url: 'https://josephwaugh.com',
+    title: 'Joseph Waugh - Full Stack Developer',
+    description: 'Full-stack developer specializing in React, Next.js, TypeScript, and Node.js',
+    siteName: 'Joseph Waugh',
     images: [
       {
         url: '/og-image.png',
@@ -59,10 +59,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Portfolio - Full Stack Developer',
-    description: 'Professional portfolio showcasing web development projects and skills',
+    title: 'Joseph Waugh - Full Stack Developer',
+    description: 'Full-stack developer specializing in React, Next.js, TypeScript, and Node.js',
     images: ['/og-image.png'],
-    creator: '@yourhandle'
+    creator: '@jojo60102'
   },
   robots: {
     index: true,
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://portfolio.example.com',
+    canonical: 'https://josephwaugh.com',
   },
 }
 
@@ -121,9 +121,9 @@ export default function RootLayout({
         
         
         {/* Favicon and app icons */}
+        <link rel="icon" href="/smiley.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/smiley.svg" />
         <link rel="manifest" href="/manifest.json" />
         
         {/* Browser compatibility */}

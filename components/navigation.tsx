@@ -54,10 +54,31 @@ export function Navigation() {
           {/* Logo */}
           <Link
             href="/"
-            className="text-xl font-bold transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            className="flex items-center gap-2 text-xl font-bold transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             aria-label="Home"
           >
-            Portfolio
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 100 100"
+              className="transition-transform hover:scale-110"
+              aria-hidden="true"
+            >
+              {/* Yellow circle background */}
+              <circle cx="50" cy="50" r="50" fill="#FFD700" />
+              {/* Black eyes */}
+              <circle cx="35" cy="40" r="5" fill="#000" />
+              <circle cx="65" cy="40" r="5" fill="#000" />
+              {/* Black smile */}
+              <path
+                d="M 30 60 Q 50 75 70 60"
+                stroke="#000"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span>JW</span>
           </Link>
 
           {/* Desktop Navigation */}
