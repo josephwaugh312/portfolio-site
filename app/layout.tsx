@@ -1,0 +1,183 @@
+import type { Metadata, Viewport } from 'next'
+import { Inter, JetBrains_Mono } from 'next/font/google'
+import { ThemeProvider } from '@/components/theme-provider'
+import { Navigation } from '@/components/navigation'
+import { Footer } from '@/components/footer'
+import { SkipLink } from '@/components/skip-link'
+import { CustomCursor } from '@/components/custom-cursor'
+import { PageTransition } from '@/components/page-transition'
+import { ScrollProgress } from '@/components/scroll-progress'
+import { PerformanceMonitor } from '@/components/performance-monitor'
+import './globals.css'
+
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+})
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' }
+  ],
+}
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://portfolio.example.com'),
+  title: {
+    default: 'Portfolio - Full Stack Developer',
+    template: '%s | Portfolio'
+  },
+  description: 'Professional portfolio showcasing web development projects and skills. Specializing in React, Next.js, TypeScript, and modern web technologies.',
+  keywords: ['portfolio', 'web developer', 'full stack', 'react', 'nextjs', 'typescript', 'javascript', 'frontend', 'backend'],
+  authors: [{ name: 'Your Name', url: 'https://portfolio.example.com' }],
+  creator: 'Your Name',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://portfolio.example.com',
+    title: 'Portfolio - Full Stack Developer',
+    description: 'Professional portfolio showcasing web development projects and skills',
+    siteName: 'Developer Portfolio',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Portfolio Preview',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Portfolio - Full Stack Developer',
+    description: 'Professional portfolio showcasing web development projects and skills',
+    images: ['/og-image.png'],
+    creator: '@yourhandle'
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: 'https://portfolio.example.com',
+  },
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning className="h-full">
+      <head>
+        {/* Critical inline CSS for immediate rendering */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            :root {
+              --background: 0 0% 100%;
+              --foreground: 222.2 84% 4.9%;
+            }
+            .dark {
+              --background: 222.2 84% 4.9%;
+              --foreground: 210 40% 98%;
+            }
+            html {
+              height: 100%;
+              width: 100%;
+              zoom: 1 !important;
+            }
+            body {
+              margin: 0;
+              padding: 0;
+              min-height: 100vh;
+              width: 100%;
+              zoom: 1 !important;
+              background-color: hsl(var(--background));
+              color: hsl(var(--foreground));
+            }
+            * {
+              zoom: unset !important;
+            }
+          `
+        }} />
+        
+        {/* Preconnect to external resources */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Favicon and app icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Browser compatibility */}
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        
+        {/* Performance hints */}
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        
+        {/* EmailJS SDK */}
+        <script
+          type="text/javascript"
+          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+          async
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                window.addEventListener('load', function() {
+                  if (window.emailjs) {
+                    window.emailjs.init('${process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''}');
+                  }
+                });
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <CustomCursor />
+          <ScrollProgress />
+          <PerformanceMonitor />
+          <SkipLink />
+          <div className="relative flex min-h-screen flex-col">
+            <Navigation />
+            <main id="main-content" className="flex-1 pt-16">
+              <PageTransition>
+                {children}
+              </PageTransition>
+            </main>
+            <Footer />
+          </div>
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}

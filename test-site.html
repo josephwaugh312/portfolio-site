@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Site Status</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 40px;
+      max-width: 800px;
+      margin: 0 auto;
+      background: #1e293b;
+      color: white;
+    }
+    h1 {
+      color: #6366f1;
+    }
+    .test-item {
+      padding: 15px;
+      margin: 10px 0;
+      background: #334155;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .success {
+      background: #10b981;
+      color: white;
+    }
+    .error {
+      background: #ef4444;
+      color: white;
+    }
+    .warning {
+      background: #f59e0b;
+      color: white;
+    }
+    button {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+    button:hover {
+      background: #5558e3;
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 2px solid #6366f1;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Portfolio Site Status Check</h1>
+  
+  <button onclick="runTests()">Run All Tests</button>
+  <button onclick="checkSite()">Open Site in Frame</button>
+  
+  <div id="test-results"></div>
+  
+  <iframe id="site-frame" style="display:none;" src=""></iframe>
+  
+  <script>
+    const siteUrl = 'http://localhost:3002';
+    
+    async function runTests() {
+      const results = document.getElementById('test-results');
+      results.innerHTML = '<h2>Test Results:</h2>';
+      
+      // Test 1: Check if site is accessible
+      try {
+        const response = await fetch(siteUrl);
+        addResult('Site Accessibility', response.ok ? 'success' : 'error', 
+          response.ok ? 'Site is accessible' : `HTTP ${response.status}`);
+      } catch (e) {
+        addResult('Site Accessibility', 'error', 'Site is not running');
+      }
+      
+      // Test 2: Check for favicon
+      try {
+        const faviconResponse = await fetch(siteUrl + '/favicon.ico');
+        addResult('Favicon', faviconResponse.ok ? 'success' : 'warning', 
+          faviconResponse.ok ? 'Favicon found' : 'Favicon missing (404)');
+      } catch (e) {
+        addResult('Favicon', 'error', 'Could not check favicon');
+      }
+      
+      // Test 3: Check for icon-192.png
+      try {
+        const icon192Response = await fetch(siteUrl + '/icon-192.png');
+        addResult('Icon 192x192', icon192Response.ok ? 'success' : 'warning',
+          icon192Response.ok ? 'Icon found' : 'Icon missing (404)');
+      } catch (e) {
+        addResult('Icon 192x192', 'error', 'Could not check icon');
+      }
+      
+      // Test 4: Check for icon-512.png
+      try {
+        const icon512Response = await fetch(siteUrl + '/icon-512.png');
+        addResult('Icon 512x512', icon512Response.ok ? 'success' : 'warning',
+          icon512Response.ok ? 'Icon found' : 'Icon missing (404)');
+      } catch (e) {
+        addResult('Icon 512x512', 'error', 'Could not check icon');
+      }
+      
+      // Test 5: Check for apple-touch-icon
+      try {
+        const appleIconResponse = await fetch(siteUrl + '/apple-touch-icon.png');
+        addResult('Apple Touch Icon', appleIconResponse.ok ? 'success' : 'warning',
+          appleIconResponse.ok ? 'Icon found' : 'Icon missing (404)');
+      } catch (e) {
+        addResult('Apple Touch Icon', 'error', 'Could not check icon');
+      }
+      
+      // Test 6: Check manifest.json
+      try {
+        const manifestResponse = await fetch(siteUrl + '/manifest.json');
+        if (manifestResponse.ok) {
+          const manifest = await manifestResponse.json();
+          addResult('Manifest', 'success', 
+            `Found: ${manifest.name || 'No name'}`);
+        } else {
+          addResult('Manifest', 'warning', 'Manifest missing (404)');
+        }
+      } catch (e) {
+        addResult('Manifest', 'error', 'Could not check manifest');
+      }
+      
+      // Test 7: Check page content
+      try {
+        const response = await fetch(siteUrl);
+        const html = await response.text();
+        
+        // Check for zoom issues
+        const hasZoomIssue = html.includes('zoom:') && !html.includes('zoom: 1') && !html.includes('zoom: unset');
+        addResult('Zoom Issues', hasZoomIssue ? 'error' : 'success',
+          hasZoomIssue ? 'Found problematic zoom styles' : 'No zoom issues detected');
+        
+        // Check for viewport meta
+        const hasViewport = html.includes('viewport');
+        addResult('Viewport Meta', hasViewport ? 'success' : 'warning',
+          hasViewport ? 'Viewport meta tag present' : 'Missing viewport meta');
+      } catch (e) {
+        addResult('Page Content', 'error', 'Could not check page content');
+      }
+    }
+    
+    function addResult(test, status, message) {
+      const results = document.getElementById('test-results');
+      const item = document.createElement('div');
+      item.className = 'test-item';
+      item.innerHTML = `
+        <div>
+          <strong>${test}</strong>
+          <div style="font-size: 14px; color: #94a3b8; margin-top: 5px;">${message}</div>
+        </div>
+        <span class="status ${status}">${status.toUpperCase()}</span>
+      `;
+      results.appendChild(item);
+    }
+    
+    function checkSite() {
+      const frame = document.getElementById('site-frame');
+      frame.src = siteUrl;
+      frame.style.display = 'block';
+      
+      // Listen for console messages from iframe
+      frame.onload = function() {
+        console.log('Site loaded in iframe. Check browser console for any errors.');
+      };
+    }
+    
+    // Auto-run tests on load
+    window.onload = () => {
+      runTests();
+    };
+  </script>
+</body>
+</html>

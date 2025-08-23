@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test CSS Variables</title>
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+        }
+        .dark {
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .dark body {
+            background-color: hsl(222.2 84% 4.9%);
+            color: hsl(210 40% 98%);
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Page</h1>
+    <p>If you can see this text, the CSS variables are working correctly.</p>
+    <button onclick="document.documentElement.classList.toggle('dark')">Toggle Dark Mode</button>
+    
+    <div style="margin-top: 20px; padding: 20px; border: 2px solid currentColor;">
+        <h2>Debug Info:</h2>
+        <p>Background should be: <span id="bg"></span></p>
+        <p>Foreground should be: <span id="fg"></span></p>
+    </div>
+    
+    <script>
+        document.getElementById('bg').textContent = getComputedStyle(document.body).backgroundColor;
+        document.getElementById('fg').textContent = getComputedStyle(document.body).color;
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Icons</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 20px;
+      background: #1e293b;
+      color: white;
+    }
+    canvas {
+      border: 1px solid #334155;
+      margin: 10px;
+      display: block;
+    }
+    button {
+      background: #6366f1;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover {
+      background: #5558e3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Icon Generator</h1>
+  
+  <canvas id="icon-512" width="512" height="512"></canvas>
+  <button onclick="downloadCanvas('icon-512', 'icon-512.png')">Download 512x512</button>
+  
+  <canvas id="icon-192" width="192" height="192"></canvas>
+  <button onclick="downloadCanvas('icon-192', 'icon-192.png')">Download 192x192</button>
+  
+  <canvas id="apple-touch" width="180" height="180"></canvas>
+  <button onclick="downloadCanvas('apple-touch', 'apple-touch-icon.png')">Download Apple Touch Icon</button>
+  
+  <canvas id="favicon" width="32" height="32"></canvas>
+  <button onclick="downloadCanvas('favicon', 'favicon.ico')">Download Favicon</button>
+
+  <script>
+    function drawIcon(canvasId, size) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      
+      // Create gradient background
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#6366f1');
+      gradient.addColorStop(1, '#3730a3');
+      
+      // Draw rounded rectangle background
+      const radius = size * 0.15;
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Draw letter "P" for Portfolio
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size * 0.5}px -apple-system, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('P', size / 2, size / 2);
+    }
+    
+    function downloadCanvas(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const link = document.createElement('a');
+      link.download = filename;
+      
+      if (filename.endsWith('.ico')) {
+        // For ICO format, we'll just use PNG
+        canvas.toBlob(function(blob) {
+          link.href = URL.createObjectURL(blob);
+          link.click();
+        }, 'image/png');
+      } else {
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }
+    }
+    
+    // Draw all icons
+    drawIcon('icon-512', 512);
+    drawIcon('icon-192', 192);
+    drawIcon('apple-touch', 180);
+    drawIcon('favicon', 32);
+  </script>
+</body>
+</html>
