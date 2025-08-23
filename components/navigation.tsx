@@ -78,11 +78,12 @@ export function Navigation() {
                 strokeLinecap="round"
               />
             </svg>
-            <span>&lt;Joseph Waugh /&gt;</span>
+            <span className="hidden sm:inline">&lt;Joseph Waugh /&gt;</span>
+            <span className="sm:hidden">&lt;JW /&gt;</span>
           </Link>
 
           {/* Desktop Navigation - Centered */}
-          <div className="hidden md:flex md:items-center md:space-x-8 md:absolute md:left-1/2 md:-translate-x-1/2" role="list">
+          <div className="hidden lg:flex lg:items-center lg:space-x-8 lg:absolute lg:left-1/2 lg:-translate-x-1/2" role="list">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -134,7 +135,7 @@ export function Navigation() {
             <button
               ref={closeButtonRef}
               onClick={toggleMenu}
-              className="rounded-lg p-2 transition-colors hover:bg-accent md:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              className="rounded-lg p-2 transition-colors hover:bg-accent lg:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
@@ -158,7 +159,7 @@ export function Navigation() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden"
+              className="lg:hidden"
               role="list"
               aria-label="Mobile navigation"
             >
