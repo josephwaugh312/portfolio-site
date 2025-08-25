@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { SkillsDisplay } from '@/components/skills-display'
 import { Timeline } from '@/components/timeline'
 import { ScrollReveal } from '@/components/scroll-reveal'
@@ -25,22 +26,72 @@ export default function AboutPage() {
       {/* Hero Section with Parallax */}
       <ParallaxSection className="relative py-32 sm:py-40" offset={50}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ 
-              duration: 0.6,
-              ease: [0.25, 0.1, 0.25, 1]
-            }}
-            className="mx-auto max-w-4xl text-center mb-8"
-          >
-            <h1 className="text-5xl font-bold tracking-tight sm:text-6xl mb-4 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-              About Me
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              From business strategy to building digital solutions
-            </p>
-          </motion.div>
+          <div className="mx-auto max-w-5xl flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            {/* Text Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ 
+                duration: 0.6,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
+              className="flex-1 text-center lg:text-left"
+            >
+              <h1 className="text-5xl font-bold tracking-tight sm:text-6xl mb-4 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                About Me
+              </h1>
+              <p className="text-xl text-muted-foreground">
+                From business strategy to building digital solutions
+              </p>
+            </motion.div>
+            
+            {/* Professional Headshot */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.7,
+                delay: 0.2,
+                ease: [0.25, 0.1, 0.25, 1]
+              }}
+              className="relative"
+            >
+              {/* Decorative background blur */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary/20 to-blue-600/20 blur-2xl" />
+              
+              {/* Image container with hover effects */}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                className="relative"
+              >
+                <div className="relative h-[250px] w-[250px] sm:h-[300px] sm:w-[300px] lg:h-[350px] lg:w-[350px] rounded-full overflow-hidden ring-4 ring-primary/20 shadow-2xl">
+                  <Image
+                    src="/images/projects/PortfolioPhoto.JPG"
+                    alt="Joseph Waugh - Full Stack Developer"
+                    fill
+                    priority
+                    className="object-cover object-top"
+                    style={{ objectPosition: '50% 2%' }}
+                    sizes="(max-width: 640px) 250px, (max-width: 1024px) 300px, 350px"
+                  />
+                </div>
+                
+                {/* Subtle floating animation */}
+                <motion.div
+                  className="absolute inset-0 rounded-full ring-2 ring-primary/30"
+                  animate={{
+                    scale: [1, 1.05, 1],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
         
         {/* Animated background elements */}

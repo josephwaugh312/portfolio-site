@@ -17,11 +17,11 @@ const navItems = [
 
 export function Navigation() {
   const [isOpen, setIsOpen] = React.useState(false)
-  const [mounted, setMounted] = React.useState(false)
   const pathname = usePathname()
   const { theme, setTheme } = useTheme()
   const menuRef = React.useRef<HTMLDivElement>(null)
   const closeButtonRef = React.useRef<HTMLButtonElement>(null)
+  const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
@@ -64,12 +64,9 @@ export function Navigation() {
               className="transition-transform hover:scale-110"
               aria-hidden="true"
             >
-              {/* Yellow circle background */}
               <circle cx="50" cy="50" r="50" fill="#FFD700" />
-              {/* Black eyes */}
               <circle cx="35" cy="40" r="5" fill="#000" />
               <circle cx="65" cy="40" r="5" fill="#000" />
-              {/* Black smile */}
               <path
                 d="M 30 60 Q 50 75 70 60"
                 stroke="#000"
@@ -78,12 +75,12 @@ export function Navigation() {
                 strokeLinecap="round"
               />
             </svg>
-            <span className="hidden sm:inline">&lt;Joseph Waugh /&gt;</span>
-            <span className="sm:hidden">&lt;JW /&gt;</span>
+            <span className="sm:inline-block hidden">&lt;Joseph Waugh /&gt;</span>
+            <span className="sm:hidden inline-block">&lt;JW /&gt;</span>
           </Link>
 
           {/* Desktop Navigation - Centered */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-8 lg:absolute lg:left-1/2 lg:-translate-x-1/2" role="list">
+          <div className="hidden md:flex md:items-center md:space-x-8 lg:space-x-10 md:absolute md:left-1/2 md:-translate-x-1/2" role="list">
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -135,7 +132,7 @@ export function Navigation() {
             <button
               ref={closeButtonRef}
               onClick={toggleMenu}
-              className="rounded-lg p-2 transition-colors hover:bg-accent lg:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              className="rounded-lg p-2 transition-colors hover:bg-accent md:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
@@ -148,44 +145,42 @@ export function Navigation() {
             </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              ref={menuRef}
-              id="mobile-menu"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden"
-              role="list"
-              aria-label="Mobile navigation"
-            >
-              <div className="space-y-1 pb-4 pt-2">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className={cn(
-                      'block rounded-lg px-3 py-2 text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
-                      pathname === item.href
-                        ? 'bg-accent text-accent-foreground'
-                        : 'text-muted-foreground'
-                    )}
-                    aria-current={pathname === item.href ? 'page' : undefined}
-                    role="listitem"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            ref={menuRef}
+            id="mobile-menu"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="border-b bg-background md:hidden"
+          >
+            <div className="container mx-auto space-y-1 px-4 py-4 sm:px-6" role="list">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    'block rounded-md px-3 py-2 text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                    pathname === item.href
+                      ? 'bg-accent text-accent-foreground'
+                      : 'text-muted-foreground'
+                  )}
+                  onClick={() => setIsOpen(false)}
+                  aria-current={pathname === item.href ? 'page' : undefined}
+                  role="listitem"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }

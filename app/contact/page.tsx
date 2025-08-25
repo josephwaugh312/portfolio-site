@@ -129,7 +129,7 @@ export default function ContactPage() {
             </h2>
             <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Prefer to chat? I&apos;m available for video calls to discuss your project 
-              in detail. Book a 30-minute consultation to explore how we can work together.
+              in detail. Book a 15-minute consultation to explore how we can work together.
             </p>
             <button
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:scale-105 hover:shadow-lg"

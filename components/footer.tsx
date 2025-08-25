@@ -33,7 +33,7 @@ export function Footer() {
         <div className="flex flex-col items-center justify-between space-y-4 sm:flex-row sm:space-y-0">
           {/* Copyright */}
           <div className="text-sm text-muted-foreground">
-            © {currentYear} Portfolio. All rights reserved.
+            © {currentYear} Joseph Waugh. All rights reserved.
           </div>
 
           {/* Social Links */}

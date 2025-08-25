@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface TechStackProps {
@@ -103,40 +102,10 @@ function getTechConfig(tech: string) {
   }
 }
 
-// Loading skeleton component
-function LoadingSkeleton({ className = '' }: { className?: string }) {
-  return (
-    <div className={`flex flex-wrap gap-3 min-h-[48px] ${className}`}>
-      <div className="h-10 w-24 bg-secondary/20 rounded-full animate-pulse" />
-      <div className="h-10 w-28 bg-secondary/20 rounded-full animate-pulse" />
-      <div className="h-10 w-20 bg-secondary/20 rounded-full animate-pulse" />
-      <div className="h-10 w-32 bg-secondary/20 rounded-full animate-pulse" />
-    </div>
-  )
-}
-
 export function TechStack({ technologies, className = '' }: TechStackProps) {
-  const [mounted, setMounted] = useState(false)
-
-  // Debug log on every render
-  console.log('[TechStack] Rendering with technologies:', {
-    type: typeof technologies,
-    isArray: Array.isArray(technologies),
-    value: technologies
-  })
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Show loading skeleton on server-side and initial client render
-  if (!mounted) {
-    return <LoadingSkeleton className={className} />
-  }
 
   // Handle null/undefined
   if (!technologies) {
-    console.warn('TechStack: technologies prop is null or undefined')
     return null
   }
 
@@ -145,23 +114,14 @@ export function TechStack({ technologies, className = '' }: TechStackProps) {
     return Array.isArray(data) && data.every(item => typeof item === 'string')
   }
 
-  // Helper function to explicitly check for grouped structure
+  // Helper function to check for grouped structure
   const isGroupedStructure = (data: any): data is TechStackGroup => {
-    console.log('[TechStack] Checking if grouped structure:', {
-      hasData: !!data,
-      type: typeof data,
-      isArray: Array.isArray(data),
-      keys: data && typeof data === 'object' && !Array.isArray(data) ? Object.keys(data) : []
-    })
-    
     if (!data || typeof data !== 'object' || Array.isArray(data)) {
-      console.log('[TechStack] Not grouped: failed basic checks')
       return false
     }
     
     const keys = Object.keys(data)
     if (keys.length === 0) {
-      console.log('[TechStack] Not grouped: no keys')
       return false
     }
     
@@ -169,18 +129,15 @@ export function TechStack({ technologies, className = '' }: TechStackProps) {
     for (const key of keys) {
       const value = data[key]
       if (!Array.isArray(value)) {
-        console.log(`[TechStack] Not grouped: "${key}" value is not an array`)
         return false
       }
       for (const item of value) {
         if (typeof item !== 'string') {
-          console.log(`[TechStack] Not grouped: "${key}" contains non-string item:`, item)
           return false
         }
       }
     }
     
-    console.log('[TechStack] Is grouped structure!')
     return true
   }
 
@@ -226,7 +183,6 @@ export function TechStack({ technologies, className = '' }: TechStackProps) {
   // Determine data structure and render accordingly
   if (isFlatArray(technologies)) {
     // Render flat array of technologies
-    console.log('[TechStack] Rendering as flat array')
     return (
       <AnimatePresence mode="wait">
         <motion.div
@@ -242,7 +198,6 @@ export function TechStack({ technologies, className = '' }: TechStackProps) {
     )
   } else if (isGroupedStructure(technologies)) {
     // Render grouped structure with categories
-    console.log('[TechStack] Rendering as grouped structure')
     let globalIndex = 0
     
     return (
@@ -257,7 +212,6 @@ export function TechStack({ technologies, className = '' }: TechStackProps) {
           {Object.entries(technologies).map(([category, techs], categoryIndex) => {
             // Safety check: ensure techs is an array
             if (!Array.isArray(techs)) {
-              console.error(`[TechStack] Category "${category}" does not contain an array:`, techs)
               return null
             }
             
@@ -290,11 +244,6 @@ export function TechStack({ technologies, className = '' }: TechStackProps) {
     )
   } else {
     // Fallback for unrecognized structure
-    console.error('TechStack: Unrecognized data structure for technologies', {
-      type: typeof technologies,
-      isArray: Array.isArray(technologies),
-      value: technologies
-    })
     return null
   }
 }

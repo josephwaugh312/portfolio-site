@@ -4,8 +4,6 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { SkipLink } from '@/components/skip-link'
-import { CustomCursor } from '@/components/custom-cursor'
-import { PageTransition } from '@/components/page-transition'
 import { ScrollProgress } from '@/components/scroll-progress'
 import { PerformanceMonitor } from '@/components/performance-monitor'
 import './globals.css'
@@ -157,16 +155,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <CustomCursor />
           <ScrollProgress />
           <PerformanceMonitor />
           <SkipLink />
           <div className="relative flex min-h-screen flex-col">
             <Navigation />
             <main id="main-content" className="flex-1 pt-16">
-              <PageTransition>
-                {children}
-              </PageTransition>
+              {children}
             </main>
             <Footer />
           </div>
